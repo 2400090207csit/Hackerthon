@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Indian Heritage Explorer - Discover India's Culture & Monuments</title>
+    <style>
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --navy: #000080;
+            --gold: #D4AF37;
+            --cream: #FFF8DC;
+            --maroon: #800000;
+            --peacock: #005F73;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Segoe UI', serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--saffron) 0%, var(--maroon) 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .user-role {
+            background: var(--white);
+            color: var(--maroon);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .auth-btn {
+            background: var(--white);
+            color: var(--maroon);
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Login/Signup Modal */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 3000;
+            animation: fadeIn 0.3s;
+        }
+
+        .auth-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 450px;
+            width: 90%;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s;
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, var(--saffron), var(--maroon));
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .auth-tab {
+            background: rgba(255,255,255,0.2);
+            color: var(--white);
+            border: 2px solid transparent;
+            padding: 0.6rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            background: var(--white);
+            color: var(--maroon);
+            border-color: var(--white);
+        }
+
+        .auth-body {
+            padding: 2rem;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--maroon);
+            font-size: 0.9rem;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: var(--cream);
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: var(--saffron);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(255,153,51,0.1);
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--peacock);
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.3rem;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .strength-weak { width: 33%; background: var(--maroon); }
+        .strength-medium { width: 66%; background: var(--saffron); }
+        .strength-strong { width: 100%; background: var(--green); }
+
+        .auth-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .auth-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,153,51,0.4);
+        }
+
+        .auth-footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--cream);
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .auth-footer a {
+            color: var(--peacock);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            color: var(--maroon);
+        }
+
+        .logged-in-user {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--peacock), var(--navy));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: var(--white);
+            border: 2px solid var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .logout-btn:hover {
+            background: var(--white);
+            color: var(--maroon);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23FF9933" width="1200" height="400"/><path fill="%23138808" d="M0 200 Q300 150 600 200 T1200 200 V400 H0Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            padding: 6rem 2rem;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '🕉️';
+            position: absolute;
+            font-size: 30rem;
+            opacity: 0.05;
+            top: -5rem;
+            right: -5rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            animation: fadeInDown 1s;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(255,153,51,0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--maroon);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sections */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--maroon);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--saffron), var(--green));
+            border-radius: 2px;
+        }
+
+        /* Monument Cards */
+        .monuments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .monument-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .monument-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .monument-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--peacock), var(--saffron));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .monument-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .monument-content {
+            padding: 1.5rem;
+        }
+
+        .monument-title {
+            font-size: 1.5rem;
+            color: var(--maroon);
+            margin-bottom: 0.5rem;
+        }
+
+        .monument-location {
+            color: var(--peacock);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .monument-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .monument-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .monument-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .btn-tour {
+            background: var(--peacock);
+            color: var(--white);
+        }
+
+        .btn-tour:hover {
+            background: var(--navy);
+            transform: scale(1.05);
+        }
+
+        .btn-learn {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .btn-learn:hover {
+            background: #0d6b06;
+            transform: scale(1.05);
+        }
+
+        /* Virtual Tour Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--saffron), var(--maroon));
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .tour-viewer {
+            background: linear-gradient(135deg, var(--peacock), var(--navy));
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tour-viewer::before {
+            content: '🏛️';
+            font-size: 15rem;
+            opacity: 0.1;
+            position: absolute;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .tour-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .tour-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid var(--white);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .tour-btn:hover {
+            background: var(--white);
+            color: var(--peacock);
+            transform: scale(1.1);
+        }
+
+        .info-section {
+            margin-top: 2rem;
+        }
+
+        .info-section h3 {
+            color: var(--maroon);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .info-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--maroon);
+            border-bottom-color: var(--saffron);
+        }
+
+        .tab:hover {
+            color: var(--peacock);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Discussion Forum */
+        .discussion-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .discussion-post {
+            border-left: 4px solid var(--saffron);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--cream);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .discussion-post:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .post-author {
+            font-weight: bold;
+            color: var(--maroon);
+            margin-bottom: 0.5rem;
+        }
+
+        .post-content {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .reply-btn {
+            background: var(--peacock);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .reply-btn:hover {
+            background: var(--navy);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .admin-btn {
+            background: linear-gradient(135deg, var(--maroon), var(--navy));
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--maroon), var(--navy));
+            color: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--saffron);
+            padding-left: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .monuments-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                🕉️ Indian Heritage Explorer
+            </div>
+            <div class="nav-links">
+                <!-- Updated to call showSection and prevent default anchor behavior -->
+                <a href="#monuments" onclick="showSection('monuments'); event.preventDefault();">Monuments</a>
+                <a href="#culture" onclick="showSection('culture'); event.preventDefault();">Culture</a>
+                <a href="#tours" onclick="showSection('tours'); event.preventDefault();">Virtual Tours</a>
+                <a href="#discussions" onclick="showSection('discussions'); event.preventDefault();">Discussions</a>
+                <div id="authSection">
+                    <button class="auth-btn" onclick="showAuthModal()">Login / Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Explore India's Rich Cultural Heritage</h1>
+        <p>Journey through centuries of history, monuments, and traditions</p>
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="showSection('monuments')">Explore Monuments</button>
+            <button class="btn btn-secondary" onclick="showSection('tours')">Start Virtual Tour</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Monuments Section -->
+        <section id="monuments">
+            <h2 class="section-title">Famous Monuments of India</h2>
+            <div class="monuments-grid" id="monumentsGrid">
+                <!-- Monument cards will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Culture Section (added) -->
+        <section id="culture" style="display: none;">
+            <h2 class="section-title">Culture & Traditions</h2>
+            <div class="monuments-grid">
+                <div class="monument-card">
+                    <div class="monument-image">🎎</div>
+                    <div class="monument-content">
+                        <h3 class="monument-title">Indian Festivals</h3>
+                        <p class="monument-location">Pan-India</p>
+                        <p class="monument-description">Learn about Diwali, Holi, Pongal, Onam, Baisakhi and more — their origins, rituals and regional variations.</p>
+                        <div class="monument-tags">
+                            <span class="tag">Festivals</span><span class="tag">Traditions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="monument-card">
+                    <div class="monument-image">🎨</div>
+                    <div class="monument-content">
+                        <h3 class="monument-title">Handicrafts & Arts</h3>
+                        <p class="monument-location">Various States</p>
+                        <p class="monument-description">From Madhubani painting to Kanjeevaram weaving — discover craft stories and artisan profiles.</p>
+                        <div class="monument-tags">
+                            <span class="tag">Art</span><span class="tag">Craft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tours Section (added) -->
+        <section id="tours" style="display: none;">
+            <h2 class="section-title">Virtual Tours</h2>
+            <div class="monuments-grid">
+                <div class="monument-card">
+                    <div class="monument-image">🏛️</div>
+                    <div class="monument-content">
+                        <h3 class="monument-title">360° Taj Mahal</h3>
+                        <p class="monument-location">Agra</p>
+                        <p class="monument-description">Start the 360° guided experience or join a live tour with a guide.</p>
+                        <div class="monument-tags">
+                            <span class="tag">360°</span><span class="tag">Guided</span>
+                        </div>
+                        <div class="monument-actions">
+                            <button class="btn-small btn-tour" onclick="startVirtualTour(1)">🎥 Start Tour</button>
+                            <button class="btn-small btn-learn" onclick="learnMore(1)">📚 Learn</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="monument-card">
+                    <div class="monument-image">🗺️</div>
+                    <div class="monument-content">
+                        <h3 class="monument-title">Curated Tour Series</h3>
+                        <p class="monument-location">Online</p>
+                        <p class="monument-description">Seasonal tours, live Q&A and downloadable tour notes.</p>
+                        <div class="monument-tags">
+                            <span class="tag">Series</span><span class="tag">Live</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cultural Discussion Forum -->
+        <section id="discussions" class="discussion-container" style="display: none;">
+            <h2 class="section-title">Cultural Discussions</h2>
+            <div id="discussionPosts">
+                <!-- Discussion posts will be dynamically inserted here -->
+            </div>
+            <button class="btn btn-primary" onclick="addDiscussion()">Start New Discussion</button>
+        </section>
+
+        <!-- Admin Panel (shown only for Admin role) -->
+        <section id="adminPanel" class="admin-panel" style="display: none;">
+            <h2 class="section-title">Admin Dashboard</h2>
+            <div class="admin-actions">
+                <button class="admin-btn" onclick="manageContent()">📝 Manage Content</button>
+                <button class="admin-btn" onclick="manageUsers()">👥 Manage Users</button>
+                <button class="admin-btn" onclick="viewAnalytics()">📊 View Analytics</button>
+                <button class="admin-btn" onclick="moderateDiscussions()">💬 Moderate Discussions</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login/Signup Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <div class="auth-header">
+                <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+                <h2>🕉️ Welcome to Indian Heritage</h2>
+                <div class="auth-tabs">
+                    <!-- Pass event explicitly -->
+                    <button class="auth-tab active" onclick="switchAuthTab('login', event)">Login</button>
+                    <button class="auth-tab" onclick="switchAuthTab('signup', event)">Sign Up</button>
+                </div>
+            </div>
+            <div class="auth-body">
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                    <div class="form-field">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="your.email@example.com" required autocomplete="email">
+                    </div>
+                    <div class="form-field">
+                        <label for="loginPassword">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password">
+                            <!-- Pass event explicitly -->
+                            <span class="password-toggle" onclick="togglePassword('loginPassword', event)">👁️</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-submit">Login to Your Account</button>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signupForm" class="auth-form" onsubmit="handleSignup(event)">
+                    <div class="form-field">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Your full name" required autocomplete="name">
+                    </div>
+                    <div class="form-field">
+                        <label for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" placeholder="your.email@example.com" required autocomplete="email">
+                    </div>
+                    <div class="form-field">
+                        <label for="signupPassword">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="signupPassword" placeholder="Create a strong password" required autocomplete="new-password" oninput="checkPasswordStrength(this.value)">
+                            <!-- Pass event explicitly -->
+                            <span class="password-toggle" onclick="togglePassword('signupPassword', event)">👁️</span>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strengthFill"></div>
+                            </div>
+                            <span id="strengthText"></span>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="signupRole">Select Your Role</label>
+                        <select id="signupRole" required>
+                            <option value="">Choose a role...</option>
+                            <option value="Cultural Enthusiast">Cultural Enthusiast - Explore and Learn</option>
+                            <option value="Tour Guide">Tour Guide - Conduct Virtual Tours</option>
+                            <option value="Content Creator">Content Creator - Create Educational Content</option>
+                            <option value="Admin">Admin - Manage Platform</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="auth-submit">Create Your Account</button>
+                </form>
+            </div>
+            <div class="auth-footer">
+                <p id="authFooterText">By continuing, you agree to our Terms of Service and Privacy Policy</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Virtual Tour Modal -->
+    <div class="modal" id="tourModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeTour()">&times;</button>
+                <h2 id="tourTitle">Virtual Tour</h2>
+            </div>
+            <div class="modal-body">
+                <div class="tour-viewer">
+                    <h3>360° Virtual Experience</h3>
+                    <p>Immerse yourself in the monument's grandeur</p>
+                    <div class="tour-controls">
+                        <button class="tour-btn" onclick="rotateTour('left')">⬅️ Rotate Left</button>
+                        <button class="tour-btn" onclick="rotateTour('zoom')">🔍 Zoom</button>
+                        <button class="tour-btn" onclick="rotateTour('right')">Rotate Right ➡️</button>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-tabs">
+                        <!-- Pass event explicitly -->
+                        <button class="tab active" onclick="showTab('history', event)">History</button>
+                        <button class="tab" onclick="showTab('architecture', event)">Architecture</button>
+                        <button class="tab" onclick="showTab('cultural', event)">Cultural Significance</button>
+                        <button class="tab" onclick="showTab('facts', event)">Interesting Facts</button>
+                    </div>
+
+                    <div id="history" class="tab-content active">
+                        <h3>Historical Background</h3>
+                        <p id="historyContent">Loading historical information...</p>
+                    </div>
+
+                    <div id="architecture" class="tab-content">
+                        <h3>Architectural Features</h3>
+                        <p id="architectureContent">Loading architectural details...</p>
+                    </div>
+
+                    <div id="cultural" class="tab-content">
+                        <h3>Cultural Importance</h3>
+                        <p id="culturalContent">Loading cultural significance...</p>
+                    </div>
+
+                    <div id="facts" class="tab-content">
+                        <h3>Did You Know?</h3>
+                        <p id="factsContent">Loading interesting facts...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About</h3>
+                <a href="#">Our Mission</a>
+                <a href="#">Team</a>
+                <a href="#">Partners</a>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <a href="#">Educational Materials</a>
+                <a href="#">Virtual Tours</a>
+                <a href="#">Research Papers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <a href="#">Community Forum</a>
+                <a href="#">Social Media</a>
+                <a href="#">Newsletter</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Report Issue</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Monument Database
+        const monuments = [
+            {
+                id: 1,
+                name: 'Taj Mahal',
+                location: 'Agra, Uttar Pradesh',
+                icon: '🕌',
+                description: 'A UNESCO World Heritage Site and one of the Seven Wonders of the World, this ivory-white marble mausoleum was built by Mughal Emperor Shah Jahan in memory of his wife Mumtaz Mahal.',
+                tags: ['Mughal', 'UNESCO', 'Architecture', 'Wonder'],
+                history: 'Built between 1632-1653 by Emperor Shah Jahan as a symbol of eternal love for his wife Mumtaz Mahal, who died during childbirth. Over 20,000 artisans worked on this masterpiece.',
+                architecture: 'The Taj Mahal showcases perfect symmetry, intricate marble inlay work (pietra dura), and Persian-Mughal architectural fusion. The main dome rises 73 meters, surrounded by four minarets.',
+                cultural: 'Represents the pinnacle of Mughal architecture and symbolizes eternal love. It attracts millions of visitors annually and is considered India`s cultural pride.',
+                facts: 'The Taj Mahal changes color throughout the day - pinkish in morning, milky white in afternoon, and golden under moonlight. The foundation goes 50 feet deep into the ground.'
+            },
+            {
+                id: 2,
+                name: 'Red Fort',
+                location: 'Delhi',
+                icon: '🏰',
+                description: 'The historic fort was the main residence of Mughal emperors for nearly 200 years. Its walls extend 2.5 km and vary in height from 18m on the river side to 33m on the city side.',
+                tags: ['Mughal', 'UNESCO', 'Freedom', 'Delhi'],
+                history: 'Constructed in 1648 by Shah Jahan when he shifted his capital from Agra to Delhi. It served as the Mughal dynasty`s political and ceremonial center until 1857.',
+                architecture: 'Built with red sandstone, featuring a combination of Persian, Timurid, and Hindu architectural styles. Notable structures include Diwan-i-Aam, Diwan-i-Khas, and Moti Masjid.',
+                cultural: 'The Prime Minister hoists the national flag here every Independence Day. It symbolizes India`s freedom struggle and sovereignty.',
+                facts: 'The Kohinoor diamond was housed here before the British took it. The fort originally had seven gates, only three remain accessible today.'
+            },
+            {
+                id: 3,
+                name: 'Qutub Minar',
+                location: 'Delhi',
+                icon: '🗼',
+                description: 'The tallest brick minaret in the world at 73 meters, built in the early 13th century. The complex includes several other historically significant monuments.',
+                tags: ['UNESCO', 'Medieval', 'Architecture', 'Delhi'],
+                history: 'Construction began in 1199 by Qutb-ud-din Aibak and was completed by his successor Iltutmish. It commemorates the victory of Muhammad Ghori over Rajput kings.',
+                architecture: 'Five-story tapering tower made of red sandstone and marble. Each story has a distinct balcony with intricate carvings and Quranic inscriptions.',
+                cultural: 'Represents the beginning of Muslim rule in India. The surrounding complex showcases Indo-Islamic architecture at its finest.',
+                facts: 'The nearby Iron Pillar (4th century AD) has never rusted due to its unique composition. The Qutub Minar has survived multiple earthquakes.'
+            },
+            {
+                id: 4,
+                name: 'Gateway of India',
+                location: 'Mumbai, Maharashtra',
+                icon: '⛩️',
+                description: 'An iconic arch monument built in the early 20th century to commemorate the visit of King George V and Queen Mary to Mumbai.',
+                tags: ['Colonial', 'Monument', 'Mumbai', 'Tourism'],
+                history: 'Built in 1924 to commemorate the 1911 visit of King George V and Queen Mary. Ironically, it also marked the exit point of the last British troops in 1948.',
+                architecture: 'Designed by architect George Wittet in Indo-Saracenic style, combining Hindu and Muslim architectural elements with Gothic Revival details.',
+                cultural: 'Serves as a symbol of Mumbai and Indian independence. It`s a gathering point for locals and tourists, overlooking the Arabian Sea.',
+                facts: 'The foundation stone was laid in 1911, but construction was completed only in 1924. The monument stands 26 meters tall.'
+            },
+            {
+                id: 5,
+                name: 'Hawa Mahal',
+                location: 'Jaipur, Rajasthan',
+                icon: '🏛️',
+                description: 'The Palace of Winds features 953 small windows designed to allow royal women to observe street life without being seen.',
+                tags: ['Rajput', 'Palace', 'Jaipur', 'Pink City'],
+                history: 'Built in 1799 by Maharaja Sawai Pratap Singh, designed by architect Lal Chand Ustad. Created to allow royal women to watch processions while maintaining purdah.',
+                architecture: 'Five-story structure made of red and pink sandstone. The unique honeycomb design with 953 jharokhas (windows) provides natural air conditioning.',
+                cultural: 'Represents the Rajput architectural brilliance and the social customs of that era. Part of Jaipur`s identity as the Pink City.',
+                facts: 'Despite its facade appearing to have five stories, it only has three floors. The structure is only one room wide and built like a honeycomb.'
+            },
+            {
+                id: 6,
+                name: 'Mysore Palace',
+                location: 'Mysore, Karnataka',
+                icon: '👑',
+                description: 'The official residence of the Wadiyar dynasty, illuminated by nearly 100,000 light bulbs during special occasions.',
+                tags: ['Royal', 'Palace', 'Karnataka', 'Heritage'],
+                history: 'The current structure was completed in 1912, replacing an older wooden palace destroyed by fire. Commissioned by Maharaja Krishnaraja Wadiyar IV.',
+                architecture: 'Blend of Hindu, Muslim, Rajput, and Gothic styles. Features elaborate domes, arches, and turrets. Designed by British architect Henry Irwin.',
+                cultural: 'Hosts the famous Dasara festival, one of India`s grandest celebrations. Symbol of Karnataka`s royal heritage and cultural richness.',
+                facts: 'The palace is lit with nearly 100,000 bulbs every Sunday and during special occasions. It`s India`s second most visited monument after the Taj Mahal.'
+            }
+        ];
+
+        // Discussion Database
+        let discussions = [
+            {
+                id: 1,
+                author: 'Priya Sharma',
+                role: 'Cultural Enthusiast',
+                content: 'Just visited the Taj Mahal last week! The craftsmanship is absolutely breathtaking. Did you know the marble inlay work took over 20 years to complete?',
+                replies: 3
+            },
+            {
+                id: 2,
+                author: 'Dr. Rajesh Kumar',
+                role: 'Tour Guide',
+                content: 'Starting a virtual tour series on lesser-known temples of South India. Join me this weekend to explore the magnificent Brihadeeswara Temple!',
+                replies: 7
+            }
+        ];
+
+        // User database (simulated - in production, use backend API)
+        let users = [
+            { email: 'admin@heritage.in', password: 'Admin@123', name: 'Admin User', role: 'Admin' },
+            { email: 'guide@heritage.in', password: 'Guide@123', name: 'Tour Guide', role: 'Tour Guide' },
+            { email: 'creator@heritage.in', password: 'Creator@123', name: 'Content Creator', role: 'Content Creator' }
+        ];
+
+        // Current user state
+        let currentUser = null;
+
+        // Check if user is already logged in
+        let loggedInUser = JSON.parse(localStorage.getItem('heritageUser') || 'null');
+
+        // Initialize the app
+        function init() {
+            displayMonuments();
+            displayDiscussions();
+
+            // Check if user is logged in
+            if (loggedInUser) {
+                currentUser = loggedInUser;
+                updateUserInterface();
+            }
+
+            // Ensure default visible section on load
+            showSection('monuments');
+        }
+
+        // Show auth modal
+        function showAuthModal() {
+            document.getElementById('authModal').classList.add('active');
+        }
+
+        // Close auth modal
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        // Switch between login/signup tabs (explicit event param)
+        function switchAuthTab(tab, evt) {
+            // Update tab buttons
+            document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+            } else {
+                const fallbackBtn = Array.from(document.querySelectorAll('.auth-tab')).find(b => b.textContent.toLowerCase().includes(tab));
+                if (fallbackBtn) fallbackBtn.classList.add('active');
+            }
+
+            // Update forms
+            document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+            document.getElementById('signupForm').classList.toggle('active', tab === 'signup');
+
+            // Update footer text
+            const footerText = tab === 'login'
+                ? "Don't have an account? Click Sign Up above!"
+                : 'By continuing, you agree to our Terms of Service and Privacy Policy';
+            document.getElementById('authFooterText').innerHTML = footerText;
+        }
+
+        // Toggle password visibility (explicit event)
+        function togglePassword(fieldId, evt) {
+            const field = document.getElementById(fieldId);
+            const type = field.type === 'password' ? 'text' : 'password';
+            field.type = type;
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.textContent = type === 'password' ? '👁️' : '🙈';
+            }
+        }
+
+        // Check password strength
+        function checkPasswordStrength(password) {
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+
+            // Remove all strength classes
+            strengthFill.className = 'strength-fill';
+
+            if (password.length === 0) {
+                strengthText.textContent = '';
+                return;
+            }
+
+            let strength = 0;
+
+            // Check length
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+
+            // Check for lowercase and uppercase
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+
+            // Check for numbers
+            if (/\d/.test(password)) strength++;
+
+            // Check for special characters
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+
+            if (strength <= 2) {
+                strengthFill.classList.add('strength-weak');
+                strengthText.textContent = '⚠️ Weak password';
+                strengthText.style.color = 'var(--maroon)';
+            } else if (strength <= 4) {
+                strengthFill.classList.add('strength-medium');
+                strengthText.textContent = '⚡ Medium strength';
+                strengthText.style.color = 'var(--saffron)';
+            } else {
+                strengthFill.classList.add('strength-strong');
+                strengthText.textContent = '✅ Strong password';
+                strengthText.style.color = 'var(--green)';
+            }
+        }
+
+        // Handle login
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Find user
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                currentUser = { name: user.name, role: user.role };
+                localStorage.setItem('heritageUser', JSON.stringify(currentUser));
+
+                closeAuthModal();
+                updateUserInterface();
+
+                // Show success message
+                alert(`🎉 Welcome back, ${user.name}!\n\nYou are logged in as: ${user.role}`);
+            } else {
+                alert('❌ Invalid email or password. Please try again.\n\nDemo credentials:\n• admin@heritage.in / Admin@123\n• guide@heritage.in / Guide@123\n• creator@heritage.in / Creator@123');
+            }
+        }
+
+        // Handle signup
+        function handleSignup(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const role = document.getElementById('signupRole').value;
+
+            // Check if email already exists
+            if (users.find(u => u.email === email)) {
+                alert('❌ This email is already registered. Please login instead.');
+                return;
+            }
+
+            // Validate password strength
+            if (password.length < 8) {
+                alert('❌ Password must be at least 8 characters long.');
+                return;
+            }
+
+            // Add new user
+            const newUser = { email, password, name, role };
+            users.push(newUser);
+
+            // Auto-login after signup
+            currentUser = { name: newUser.name, role: newUser.role };
+            localStorage.setItem('heritageUser', JSON.stringify(currentUser));
+
+            closeAuthModal();
+            updateUserInterface();
+
+            // Show success message
+            alert(`🎉 Account created successfully!\n\nWelcome, ${name}!\nRole: ${role}\n\nYou are now logged in and can explore Indian heritage.`);
+        }
+
+        // Logout
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                localStorage.removeItem('heritageUser');
+                updateUserInterface();
+                alert('👋 You have been logged out successfully.');
+            }
+        }
+
+        // Display monuments
+        function displayMonuments() {
+            const grid = document.getElementById('monumentsGrid');
+            grid.innerHTML = monuments.map(monument => `
+                <div class="monument-card" onclick="openMonumentDetails(${monument.id})">
+                    <div class="monument-image">
+                        ${monument.icon}
+                    </div>
+                    <div class="monument-content">
+                        <h3 class="monument-title">${monument.name}</h3>
+                        <p class="monument-location">📍 ${monument.location}</p>
+                        <p class="monument-description">${monument.description}</p>
+                        <div class="monument-tags">
+                            ${monument.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="monument-actions">
+                            <button class="btn-small btn-tour" onclick="event.stopPropagation(); startVirtualTour(${monument.id})">
+                                🎥 Virtual Tour
+                            </button>
+                            <button class="btn-small btn-learn" onclick="event.stopPropagation(); learnMore(${monument.id})">
+                                📚 Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display discussions
+        function displayDiscussions() {
+            const container = document.getElementById('discussionPosts');
+            if (!container) return;
+            container.innerHTML = discussions.map(post => `
+                <div class="discussion-post">
+                    <div class="post-author">
+                        ${post.author} <span style="color: #666; font-size: 0.9rem;">(${post.role})</span>
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                    <button class="reply-btn" onclick="replyToPost(${post.id})">💬 Reply (${post.replies})</button>
+                </div>
+            `).join('');
+        }
+
+        // Update UI based on user role
+        function updateUserInterface() {
+            const authSection = document.getElementById('authSection');
+
+            if (currentUser) {
+                // User is logged in
+                const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                authSection.innerHTML = `
+                    <div class="logged-in-user">
+                        <div class="user-avatar">${initials}</div>
+                        <span class="user-role">${currentUser.role}</span>
+                        <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                    </div>
+                `;
+
+                // Show admin panel only for admins
+                if (currentUser.role === 'Admin') {
+                    document.getElementById('adminPanel').style.display = 'block';
+                } else {
+                    document.getElementById('adminPanel').style.display = 'none';
+                }
+            } else {
+                // User is not logged in
+                authSection.innerHTML = `
+                    <button class="auth-btn" onclick="showAuthModal()">Login / Sign Up</button>
+                `;
+                document.getElementById('adminPanel').style.display = 'none';
+            }
+        }
+
+        // Start virtual tour
+        function startVirtualTour(id) {
+            const monument = monuments.find(m => m.id === id);
+            if (!monument) return;
+            document.getElementById('tourTitle').textContent = `${monument.icon} ${monument.name} Virtual Tour`;
+            document.getElementById('historyContent').textContent = monument.history;
+            document.getElementById('architectureContent').textContent = monument.architecture;
+            document.getElementById('culturalContent').textContent = monument.cultural;
+            document.getElementById('factsContent').textContent = monument.facts;
+            document.getElementById('tourModal').classList.add('active');
+        }
+
+        // Close tour
+        function closeTour() {
+            document.getElementById('tourModal').classList.remove('active');
+        }
+
+        // Show tab in modal (explicit event)
+        function showTab(tabName, evt) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            const contentEl = document.getElementById(tabName);
+            if (contentEl) contentEl.classList.add('active');
+            if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+        }
+
+        // Tour controls
+        function rotateTour(direction) {
+            alert(`Rotating ${direction}... (In full implementation, this would control 360° viewer)`);
+        }
+
+        // Learn more
+        function learnMore(id) {
+            const monument = monuments.find(m => m.id === id);
+            if (!monument) return;
+            alert(`Opening detailed page for ${monument.name}...\n\nIn the full implementation, this would open a comprehensive page with:\n- High-resolution images\n- Video documentaries\n- Interactive timeline\n- Quiz and learning modules\n- Downloadable resources`);
+        }
+
+        // Open monument details
+        function openMonumentDetails(id) {
+            startVirtualTour(id);
+        }
+
+        // Show section (SPA-style: hide all, show requested)
+        function showSection(section) {
+            const sections = ['monuments', 'culture', 'tours', 'discussions'];
+            sections.forEach(s => {
+                const el = document.getElementById(s);
+                if (el) el.style.display = (s === section ? 'block' : 'none');
+            });
+
+            // Smooth scroll into view
+            const el = document.getElementById(section);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add discussion
+        function addDiscussion() {
+            if (!currentUser) {
+                alert('Please login to start a discussion.');
+                showAuthModal();
+                return;
+            }
+
+            const content = prompt('Enter your discussion topic:');
+            if (content) {
+                discussions.unshift({
+                    id: discussions.length + 1,
+                    author: currentUser.name,
+                    role: currentUser.role,
+                    content: content,
+                    replies: 0
+                });
+                displayDiscussions();
+                // If discussions section is currently hidden, show it
+                showSection('discussions');
+            }
+        }
+
+        // Reply to post
+        function replyToPost(id) {
+            if (!currentUser) {
+                alert('Please login to reply to discussions.');
+                showAuthModal();
+                return;
+            }
+            alert('Reply functionality would open a dialog to add your comment to this discussion.');
+        }
+
+        // Admin functions
+        function manageContent() {
+            alert('Content Management:\n\n- Add/Edit/Delete Monuments\n- Upload Images & Videos\n- Create Virtual Tours\n- Update Historical Information\n- Manage Educational Content');
+        }
+
+        function manageUsers() {
+            alert('User Management:\n\n- View All Users\n- Assign Roles (Admin, Content Creator, Tour Guide, Enthusiast)\n- Monitor Activity\n- Ban/Suspend Users\n- Export User Data');
+        }
+
+        function viewAnalytics() {
+            alert('Analytics Dashboard:\n\n- Total Visits: 125,847\n- Virtual Tours Started: 45,329\n- Active Discussions: 892\n- Top Monument: Taj Mahal (35% visits)\n- User Engagement Rate: 78%');
+        }
+
+        function moderateDiscussions() {
+            alert('Discussion Moderation:\n\n- Review Flagged Content\n- Approve/Delete Posts\n- Ban Inappropriate Users\n- Monitor Forum Activity');
+        }
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+</html>
